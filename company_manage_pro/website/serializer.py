@@ -112,19 +112,13 @@ class RegisterSerializer(serializers.ModelSerializer):
 
             validated_data['profile_pic'] = profile_pic_path
 
-
-            
             if profile_pic_thumbnail:
-                # Call the Celery task to resize the profile picture thumbnail
                 resized_profile_pic_thumbnail = pic_thumbnail(profile_pic_thumbnail)
                 
                 profile_pic_thumbnail_name = f"{request.data.get('username')}_thumb.jpg"
                 profile_pic_thumbnail_path = default_storage.path(f"profile_thumbnails/{profile_pic_thumbnail_name}")
                 resized_profile_pic_thumbnail.save(profile_pic_thumbnail_path, 'JPEG')
                 validated_data['profile_pic_thumbnail'] = profile_pic_thumbnail_path
-                
-
-
 
         except:
             raise serializers.ValidationError({" Unsuccess: somthing is wrong "})
@@ -168,7 +162,6 @@ class Update_emp_info(serializers.Serializer):
 
             
     def validate_profile_pic(self, value):
-        # Remove the old profile picture file
         if value and self.instance.profile_pic:
             if os.path.isfile(self.instance.profile_pic.path):
                 os.remove(self.instance.profile_pic.path)
@@ -176,8 +169,7 @@ class Update_emp_info(serializers.Serializer):
         return value
 
     def validate_profile_pic_thumbnail(self, value):
-        
-        # Remove the old profile picture thumbnail file
+
         if value and self.instance.profile_pic_thumbnail:
             if os.path.isfile(self.instance.profile_pic_thumbnail.path):
                 os.remove(self.instance.profile_pic_thumbnail.path)

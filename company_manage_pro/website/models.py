@@ -1,11 +1,8 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password,check_password
-# Create your models here.
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 
-
-# Create your models here.
 """
 Take below data tables with mentioned fields (you may add more fields as you require)
 Companies table: id (primary key) company_name (required)

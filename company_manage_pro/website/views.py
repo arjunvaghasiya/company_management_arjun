@@ -189,31 +189,3 @@ class ProfileImage_View(viewsets.ViewSet):
             )
         return Response({"msg": "Image Deleted Success"}, status=status.HTTP_200_OK)
 
-
-
-# class Employee_management(viewsets.ViewSet):
-#     queryset = Employees_table.objects.all()
-#     # pagination_class = CustomPageNumberPagination
-#     filter_backends = [django_filters.rest_framework.DjangoFilterBackend]
-#     filterset_fields = ["name",'email']
-#     permission_classes = [IsAdminUser_ForAdmin]
-
-#     def list(self, request):
-#         user = Companies_table.objects.all()
-#         queryset = self.filter_queryset(user)
-#         paginator = CustomPageNumberPagination()
-#         objects = paginator.paginate_queryset(queryset, request)
-#         serializer = List_emp_Serializer(objects, many=True)
-#         return Response(serializer.data)
-
-#     def filter_queryset(self, queryset):
-#         for backend in list(self.filter_backends):
-#             queryset = backend().filter_queryset(self.request, queryset, self)
-#         return queryset
-
-
-
-
-
-
-
