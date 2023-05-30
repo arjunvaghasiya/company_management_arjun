@@ -112,11 +112,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 
             validated_data['profile_pic'] = profile_pic_path
 
-            user = Employees_table.objects.create_user(**validated_data)
+
             
             if profile_pic_thumbnail:
                 # Call the Celery task to resize the profile picture thumbnail
-                pic_thumbnail(user.id, profile_pic_thumbnail)
+                resized_profile_pic_thumbnail = pic_thumbnail(profile_pic_thumbnail)
+                
+                profile_pic_thumbnail_name = f"{request.data.get('username')}_thumb.jpg"
+                profile_pic_thumbnail_path = default_storage.path(f"profile_thumbnails/{profile_pic_thumbnail_name}")
+                resized_profile_pic_thumbnail.save(profile_pic_thumbnail_path, 'JPEG')
+                validated_data['profile_pic_thumbnail'] = profile_pic_thumbnail_path
+                
 
 
 
@@ -131,7 +137,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         except:
             raise serializers.ValidationError({"False Information : Mentioned company id is not a valid"})
         
-        return user
+        return Employees_table.objects.create_user(**validated_data)
 
 class View_employee(serializers.ModelSerializer):
     class Meta:
