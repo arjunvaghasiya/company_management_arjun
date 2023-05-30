@@ -6,3 +6,4 @@ local_settings.py
 db.sqlite3
 media
 .env
+.env~ba2e71b93eb69b548ad07594525f5e9932efaafd
